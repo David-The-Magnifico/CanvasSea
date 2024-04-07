@@ -32,4 +32,14 @@ public class AdminController {
     public ResponseEntity<?> removeArtist(@RequestBody AdminRequest adminRequest, RemoveArtistRequest removeArtistRequest){
         ArtistResponse removeArtistResponse = new ArtistResponse();
 
-
+        try {
+            adminService.removeArtist(adminRequest, removeArtistRequest);
+            removeArtistResponse.setMessage(removeArtistRequest.getUsername() + " and all his/her arts has been removed from Canvas Sea");
+            return new ResponseEntity<>(new ApiResponse(true,removeArtistResponse), HttpStatus.ACCEPTED);
+        }
+        catch (Exception exception){
+            removeArtistResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,removeArtistResponse),HttpStatus.BAD_REQUEST);
+        }
+    }
+}
