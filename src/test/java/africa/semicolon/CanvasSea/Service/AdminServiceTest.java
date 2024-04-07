@@ -1,4 +1,4 @@
-package africa.semicolon.canvasSea;
+package africa.semicolon.CanvasSea.Service;
 
 import africa.semicolon.CanvasSea.DTOs.Request.*;
 import africa.semicolon.CanvasSea.Data.Model.Art;
@@ -36,18 +36,18 @@ public class AdminServiceTest {
 
     @Test
     void adminCanUploadArtDisplayedByArtistWithValidArtId() {
-        RegisterRequest registerRequest = request("usernames", "password123", "veraba@gmail.com");
+        RegisterRequest registerRequest = request("usernames", "password123", "veronica@gmail.com");
         artistService.register(registerRequest);
 
-        LoginRequest loginRequest = loginRequest("usernames", "password123", "veraba@gmail.com");
+        LoginRequest loginRequest = loginRequest("usernames", "password123", "veronica@gmail.com");
         artistService.login(loginRequest);
 
         Art art;
-        DisplayArtRequest displayArtRequest = artRequest("Art", BigDecimal.valueOf(1000), "usernames", "An art", "veraba@gmail.com");
+        DisplayArtRequest displayArtRequest = artRequest("Art", BigDecimal.valueOf(1000), "usernames", "An art", "veronica@gmail.com");
         artistService.displayArt(displayArtRequest);
 
         AdminRequest adminRequest = adminRequest("admin@gmail.com", "admin12");
-        UploadRequest uploadRequest = requestUpload(1, "veraba@gmail.com");
+        UploadRequest uploadRequest = requestUpload(1, "veronica@gmail.com");
         art = adminService.uploadArt(adminRequest, uploadRequest);
 
         assertTrue(art.isPublished());
@@ -107,7 +107,7 @@ public class AdminServiceTest {
 
     }
 
-    private UploadRequest requestUpload(long artId, String email) {
+    private UploadRequest requestUpload(String artId, String email) {
         UploadRequest uploadRequest = new UploadRequest();
         uploadRequest.setArtId(artId);
         uploadRequest.setEmail(email);
