@@ -28,4 +28,8 @@ public class AdminController {
         }
     }
 
+    @DeleteMapping("Admin/remove-artist")
+    public ResponseEntity<?> removeArtist(@RequestBody AdminRequest adminRequest, RemoveArtistRequest removeArtistRequest){
+        ArtistResponse removeArtistResponse = new ArtistResponse();
+
 
