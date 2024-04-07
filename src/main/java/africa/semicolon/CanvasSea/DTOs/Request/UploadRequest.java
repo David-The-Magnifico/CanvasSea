@@ -8,4 +8,5 @@ public class UploadRequest {
     private String password;
     private String email;
     private String artId;
+    private String artistId;
 }
