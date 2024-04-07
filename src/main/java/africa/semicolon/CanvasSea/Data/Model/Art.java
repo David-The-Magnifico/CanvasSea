@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Document("Art")
 public class Art {
     @Id
-    private String id;
+    private String artId;
     private String name;
     private String description;
     private LocalDate dateUploaded = LocalDate.now();

@@ -1,18 +1,19 @@
 package africa.semicolon.CanvasSea.Data.Model;
 
-
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 
 @Data
-@Document("Admin")
-public class Admin {
+@Document("Artist")
+public class Artist {
     @Id
-    private String adminId;
+    private String artistId;
     private String username;
     private String password;
+    private boolean isEnable = false;
     private String email;
-    private boolean isEnable;
+    private List<Art> artists;
 }
