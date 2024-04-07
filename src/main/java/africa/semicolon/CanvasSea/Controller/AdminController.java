@@ -22,4 +22,10 @@ public class AdminController {
             uploadResponse.setMessage("Art with Id " + uploadRequest.getArtId() + "displayed by artist with Id " + uploadRequest.getArtistId() + "has been uploaded successfully");
             return new ResponseEntity<>(new ApiResponse(true,uploadResponse), HttpStatus.ACCEPTED);
         }
+        catch (Exception exception){
+            uploadResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,uploadResponse),HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
