@@ -5,6 +5,7 @@ import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArtService {
     Art findArt(String artId);
@@ -17,4 +18,6 @@ public interface ArtService {
     List<Art> findAllArt();
     Art findAArt(String artId);
     void removeAArt(String artId);
+    void saveArt(Art art);
+    Optional<Art> findArtById(String artId);
 }
