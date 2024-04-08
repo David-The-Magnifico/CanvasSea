@@ -10,13 +10,14 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-@Transactional
+
 @SpringBootTest
 class ArtistServiceTest {
 
@@ -35,7 +36,7 @@ class ArtistServiceTest {
     public void testThatAnArtist_CanRegisterWithWrongUsernameThrowsException(){
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("bimbim");
-        registerRequest.setPassword("asserTrue");
+        registerRequest.setPassword("assertTrue");
         registerRequest.setEmail("asserttruebim@gmail.com");
         assertThrows(InvalidUsernameException.class,()->artistService.register(registerRequest));
     }
@@ -166,7 +167,7 @@ class ArtistServiceTest {
 
         Art artToBeRemoved = artistService.displayArt(displayArtRequest2);
         RemoveAArtRequest request = new RemoveAArtRequest();
-        request.setArtId(artToBeRemoved.getArtId());
+        request.setArtId(artToBeRemoved.getId());
         request.setEmail(registerRequest.getEmail());
         artistService.removeAArt(request);
         assertEquals(2,artistService.findAllArt(registerRequest.getUsername(),registerRequest.getEmail()).size());
