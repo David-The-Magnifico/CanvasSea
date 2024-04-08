@@ -10,7 +10,7 @@ import java.util.List;
 @Document("Artist")
 public class Artist {
     @Id
-    private String artistId;
+    private String id;
     private String username;
     private String password;
     private boolean isEnable = false;
