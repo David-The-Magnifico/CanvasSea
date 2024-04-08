@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RemoveAArtRequest {
-    private String username;
     private String email;
+    private String artId;
 }
