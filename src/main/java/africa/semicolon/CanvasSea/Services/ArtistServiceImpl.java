@@ -25,6 +25,8 @@ public class ArtistServiceImpl implements ArtistService {
     @Autowired
     EmailService emailService;
 
+    private static final String ADMIN_EMAIL = "admin@gmail.com";
+
     @Override
     public Artist register(RegisterRequest registerRequest) {
         if (checkIfArtistExist(registerRequest.getUsername(), registerRequest.getEmail()))
@@ -68,7 +70,7 @@ public Artist login(LoginRequest loginRequest) {
         emailRequest.setTitle("Request to display Art");
         emailRequest.setMessage(String.format("Art proposal %n" +
                         "Art name: %s%nArt description: %s%nArt Price: %s%nArt Id: %s%nArtist Username:%s",
-                art.getName(), art.getDescription(), art.getPrice(), art.getArtId(), art.getArtist().getUsername()));
+                art.getName(), art.getDescription(), art.getPrice(), art.getId(), art.getArtist().getUsername()));
         emailRequest.setReceiverEmail(ADMIN_EMAIL);
         return emailRequest;
     }
