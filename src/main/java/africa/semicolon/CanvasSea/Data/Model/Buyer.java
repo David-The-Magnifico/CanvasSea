@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Data
 @Document("Buyer")
 public class Buyer {
@@ -13,4 +15,5 @@ public class Buyer {
     private String password;
     private boolean isEnable;
     private String email;
+    public BigDecimal Balance;
 }
