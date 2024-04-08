@@ -21,7 +21,9 @@ public interface ArtistService {
 
     List<Art> findAllArt(String username, String email);
 
-    Art findArt(FindAArtRequest findAArtRequest);
+    Art findAArt(FindAArtRequest findAArtRequest);
+
+    void removeAArt(RemoveAArtRequest removeAArtRequest);
 
 
 }
