@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("Admin")
 public class Admin {
     @Id
-    private String adminId;
+    private String id;
     private String username;
     private String password;
     private String email;
