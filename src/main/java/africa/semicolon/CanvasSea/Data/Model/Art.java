@@ -18,4 +18,6 @@ public class Art {
     private boolean isPublished = false;
     private BigDecimal price;
     private Artist artist;
-}
+    public boolean isSold = false;
+    public Buyer buyer;
+    }
