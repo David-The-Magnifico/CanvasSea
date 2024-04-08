@@ -108,11 +108,11 @@ public class AdminServiceTest {
     }
 
     private UploadRequest requestUpload(String artId, String email) {
-        UploadRequest uploadRequest = new UploadRequest();
-        uploadRequest.setArtId(artId);
-        uploadRequest.setEmail(email);
-        return uploadRequest;
-    }
+    UploadRequest uploadRequest = new UploadRequest();
+    uploadRequest.setArtId(artId);
+    uploadRequest.setEmail(email);
+    return uploadRequest;
+}
 
     private RegisterRequest request(String username, String password, String email) {
         RegisterRequest registerRequest = new RegisterRequest();
