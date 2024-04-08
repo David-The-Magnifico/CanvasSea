@@ -1,4 +1,4 @@
-package africa.semicolon.CanvasSea.Service;
+package africa.semicolon.CanvasSea.service;
 
 import africa.semicolon.CanvasSea.DTOs.Request.*;
 import africa.semicolon.CanvasSea.Data.Model.Art;
@@ -47,7 +47,7 @@ public class AdminServiceTest {
         artistService.displayArt(displayArtRequest);
 
         AdminRequest adminRequest = adminRequest("admin@gmail.com", "admin12");
-        UploadRequest uploadRequest = requestUpload(1, "veronica@gmail.com");
+        UploadRequest uploadRequest = requestUpload("1", "veronica@gmail.com");
         art = adminService.uploadArt(adminRequest, uploadRequest);
 
         assertTrue(art.isPublished());
