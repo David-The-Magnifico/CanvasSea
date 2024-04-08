@@ -25,7 +25,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public Buyer register(RegisterRequest registerRequest) {
         if (checkIfBuyerExist(registerRequest.getUsername(), registerRequest.getEmail()))
-            throw new BuyerExistException("User already exist");
+            throw new BuyerDoesNotExistException("User already exist");
         validations(registerRequest);
         Buyer buyer = buyerMapper(registerRequest);
         return buyerRepository.save(buyer);
@@ -35,7 +35,7 @@ public class BuyerServiceImpl implements BuyerService {
     public void login(LoginRequest loginRequest) {
         Optional<Buyer> foundBuyer = buyerRepository.findByUsername(loginRequest.getUsername());
         if (!checkIfBuyerExist(loginRequest.getUsername(), loginRequest.getEmail())) {
-            throw new BuyerExistException("Invalid details");
+            throw new BuyerDoesNotExistException("Invalid details");
         }
         if (!foundBuyer.get().getUsername().equalsIgnoreCase(loginRequest.getUsername())) {
             throw new InvalidDetailsException("Details entered are invalid");
@@ -49,6 +49,44 @@ public class BuyerServiceImpl implements BuyerService {
         foundBuyer.get().setEnable(false);
         buyerRepository.save(foundBuyer.get());
     }
+
+    @Override
+    public void purchase(PurchaseArtRequest purchaseArtRequest) {
+        Optional<Buyer> buyerOptional = buyerRepository.findByUsername(purchaseArtRequest.getBuyerUsername());
+        if (buyerOptional.isEmpty()) {
+            throw new BuyerDoesNotExistException("Buyer not found");
+        }
+
+        Optional<Art> artOptional = artService.findArtById(purchaseArtRequest.getArtId());
+        if (artOptional.isEmpty()) {
+            throw new ArtNotFoundException("Art not found");
+        }
+
+        Buyer buyer = buyerOptional.get();
+        Art art = artOptional.get();
+
+        if (art.isSold()) {
+            throw new ArtNotFoundException("Art is sold out");
+        }
+
+        if (art.getPrice().compareTo(purchaseArtRequest.getAmount()) != 0) {
+            throw new InsufficientAmountException("Invalid amount for the art");
+        }
+
+        if (buyer.getBalance().compareTo(art.getPrice()) < 0) {
+            throw new InsufficientAmountException("Insufficient balance to purchase the art");
+        }
+
+        buyer.setBalance(buyer.getBalance().subtract(art.getPrice()));
+        art.setSold(true);
+        art.setBuyer(buyer);
+
+        buyerRepository.save(buyer);
+        artService.saveArt(art);
+        System.out.println("Purchase successful for buyer: " + purchaseArtRequest.getBuyerUsername() + " for art ID: " + purchaseArtRequest.getArtId());
+    }
+
+
 
     public void validations(RegisterRequest registerRequest) {
         if (!Validator.validateName(registerRequest.getUsername())) {
@@ -84,7 +122,7 @@ public class BuyerServiceImpl implements BuyerService {
     private void validateBuyer(String email) {
         Optional<Buyer> buyer = buyerRepository.findByEmail(email);
         if (buyer.isEmpty()) {
-            throw new BuyerExistException("Account does not exist");
+            throw new BuyerDoesNotExistException("Account does not exist");
         }
     }
 }
