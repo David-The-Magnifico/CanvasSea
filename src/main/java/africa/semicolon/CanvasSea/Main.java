@@ -8,14 +8,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CanvasSeaApplication implements CommandLineRunner {
+public class Main implements CommandLineRunner {
 	@Autowired
 	AdminRepository adminRepository;
 
 	public final static String ADMIN_EMAIL = "www.wealthydavid@gmail.com";
 
 	public static void main(String[] args) {
-		SpringApplication.run(CanvasSeaApplication.class, args);
+		SpringApplication.run(Main.class, args);
 	}
 
 	@Override
