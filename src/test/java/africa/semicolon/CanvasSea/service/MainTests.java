@@ -1,10 +1,10 @@
-package africa.semicolon.canvasSea;
+package africa.semicolon.CanvasSea.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CanvasSeaApplicationTests {
+class MainTests {
 
 	@Test
 	void contextLoads() {
