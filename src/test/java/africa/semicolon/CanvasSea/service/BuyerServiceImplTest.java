@@ -6,18 +6,18 @@ import africa.semicolon.CanvasSea.Data.Model.Artist;
 import africa.semicolon.CanvasSea.Data.Repository.*;
 import africa.semicolon.CanvasSea.Exceptions.*;
 import africa.semicolon.CanvasSea.Services.*;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-@Transactional
-@SpringBootTest
+
+@DataMongoTest
 public class BuyerServiceImplTest {
     @Autowired
     private AdminService adminService;
@@ -42,9 +42,9 @@ public class BuyerServiceImplTest {
     @Test
     public  void  testThatABuyer_CanRegisterWithWrongUsernameThrowsException(){
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("star girl8");
-        registerRequest.setPassword("joy,1234");
-        registerRequest.setEmail("joytim7277@gmail.com");
+        registerRequest.setUsername("burna boy");
+        registerRequest.setPassword("burna8906");
+        registerRequest.setEmail("burnerboi765@gmail.com");
         assertThrows(InvalidUsernameException.class, () -> buyerService.register(registerRequest));
     }
 
@@ -137,7 +137,7 @@ public class BuyerServiceImplTest {
         adminRequest.setPassword("1234567");
 
         UploadRequest uploadRequest = new UploadRequest();
-        uploadRequest.setArtId(registerArt.getArtId());
+        uploadRequest.setArtId(registerArt.getId());
         uploadRequest.setEmail(artist.getEmail());
         registerArt = adminService.uploadArt(adminRequest, uploadRequest);
 
@@ -156,7 +156,7 @@ public class BuyerServiceImplTest {
         PurchaseArtRequest purchaseArtRequest = new PurchaseArtRequest();
         purchaseArtRequest.setBuyerUsername("Sandra");
         purchaseArtRequest.setBuyerEmail(registerRequest1.getEmail());
-        purchaseArtRequest.setArtId(registerArt.getArtId());
+        purchaseArtRequest.setArtId(registerArt.getId());
         purchaseArtRequest.setAmount(BigDecimal.valueOf(3000.00));
         assertEquals(1, artRepository.count());
         buyerService.purchase(purchaseArtRequest);
@@ -196,7 +196,7 @@ public class BuyerServiceImplTest {
         adminRequest.setUsername("Admin");
         adminRequest.setPassword("admin12");
         UploadRequest uploadRequest = new UploadRequest();
-        uploadRequest.setArtId(art.getArtId());
+        uploadRequest.setArtId(art.getId());
         uploadRequest.setEmail("deborahdelighted5@gmail.com");
         adminService.uploadArt(adminRequest,uploadRequest);
         DisplayArtRequest displayArtRequest1 = new DisplayArtRequest();
@@ -207,7 +207,7 @@ public class BuyerServiceImplTest {
         displayArtRequest1.setAmount(BigDecimal.valueOf(2500));
         Art art1 = artistService.displayArt(displayArtRequest1);
         UploadRequest uploadRequest1 = new UploadRequest();
-        uploadRequest1.setArtId(art1.getArtId());
+        uploadRequest1.setArtId(art1.getId());
         uploadRequest1.setEmail("deborahdelighted5@gmail.com");
         adminService.uploadArt(adminRequest,uploadRequest1);
         DisplayArtRequest displayArtRequest2 = new DisplayArtRequest();
@@ -218,7 +218,7 @@ public class BuyerServiceImplTest {
         displayArtRequest2.setAmount(BigDecimal.valueOf(4000));
         Art art2 = artistService.displayArt(displayArtRequest2);
         UploadRequest uploadRequest2 = new UploadRequest();
-        uploadRequest2.setArtId(art2.getArtId());
+        uploadRequest2.setArtId(art2.getId());
         uploadRequest2.setEmail("deborahdelighted5@gmail.com");
         adminService.uploadArt(adminRequest,uploadRequest2);
         assertEquals(3, artistService.findAllArt("Iyanu","deborahdelighted5@gmail.com").size());
