@@ -22,8 +22,7 @@ public class ArtistServiceImpl implements ArtistService {
     private ArtistRepository artistRepository;
     @Autowired
     ArtService artService;
-    @Autowired
-    EmailService emailService;
+
 
     private static final String ADMIN_EMAIL = "admin@gmail.com";
 
@@ -54,8 +53,6 @@ public Artist login(LoginRequest loginRequest) {
         Optional<Artist> foundArtist = findArtist(displayArtRequest.getArtistUsername());
         if (!foundArtist.get().isEnable()) throw new InvalidLoginDetails("User have not login");
         Art art = artService.create(displayArtRequest, foundArtist.get());
-        EmailRequest emailRequest = sendMessageToAdmin(foundArtist, art);
-        emailService.sendMailMessage(emailRequest);
         return art;
     }
 
@@ -123,7 +120,7 @@ public Artist login(LoginRequest loginRequest) {
         List<Art> arts = findAllArt(username, email);
         artService.delete(arts);
         Optional<Artist> artist = findArtistEmail(email);
-        if (artist.isEmpty()) throw new UserNotFound("Error! Artist with this email is not found");
+        if (!artist.isPresent()) throw new UserNotFound("Error! Artist with this email is not found");
         artistRepository.delete(artist.get());
     }
 
