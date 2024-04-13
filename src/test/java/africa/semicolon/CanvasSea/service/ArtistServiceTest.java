@@ -6,11 +6,9 @@ import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Data.Repository.ArtistRepository;
 import africa.semicolon.CanvasSea.Exceptions.*;
 import africa.semicolon.CanvasSea.Services.ArtistService;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -61,7 +59,7 @@ class ArtistServiceTest {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("Precious");
         registerRequest.setPassword("OlaPrecious");
-        registerRequest.setEmail("joy@gmail.com");
+        registerRequest.setEmail("preshola@gmail.com");
         artistService.register(registerRequest);
         assertEquals(1, artistRepository.count());
     }
@@ -71,7 +69,7 @@ class ArtistServiceTest {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("Precious");
         registerRequest.setPassword("OlaPrecious");
-        registerRequest.setEmail("joy@gmail.com");
+        registerRequest.setEmail("preshola@gmail.com");
         artistService.register(registerRequest);
         assertThrows(ArtistExistException.class,()->artistService.register(registerRequest));
     }
@@ -82,11 +80,11 @@ class ArtistServiceTest {
         LoginRequest loginRequest = new LoginRequest();
         registerRequest.setUsername("Sandra");
         registerRequest.setPassword("Olaoluwajohn");
-        registerRequest.setEmail("joy@gmail.com");
+        registerRequest.setEmail("preshola@gmail.com");
         artistService.register(registerRequest);
         loginRequest.setUsername("Sandra");
         loginRequest.setPassword("Olaoluwajohn");
-        loginRequest.setEmail("joy@gmail.com");
+        loginRequest.setEmail("@gmail.com");
         artistService.login(loginRequest);
     }
     @Test
@@ -182,11 +180,11 @@ class ArtistServiceTest {
     @Test
     public void testThatUserCanRemoveArtBelongingToUser(){
         RemoveAArtRequest removeAArtRequest = new RemoveAArtRequest();
-        removeAArtRequest.setEmail("ArtHouse123@gmail.com");
+        removeAArtRequest.setEmail("CanvasSea846@gmail.com");
         removeAArtRequest.setArtId("1L");
         artistService.removeAArt(removeAArtRequest);
         FindAArtRequest findAArtRequest = new FindAArtRequest();
-        findAArtRequest.setEmail("ArtHouse123@gmail.com");
+        findAArtRequest.setEmail("CanvasSea846@gmail.com");
         findAArtRequest.setArtId("1L");
         assertThrows(ArtNotFoundException.class, () -> artistService.findAArt(findAArtRequest));
     }
