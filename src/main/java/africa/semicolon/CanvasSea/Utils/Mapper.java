@@ -37,7 +37,6 @@ public class Mapper {
     public static Art map(String name, String id){
         Art art = new Art();
         art.setName(name);
-        art.setArtId(id);
         return art;
     }
 
