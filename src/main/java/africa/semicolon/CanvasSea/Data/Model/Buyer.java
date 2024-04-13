@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Document("Buyer")
 public class Buyer {
     @Id
-    private String buyerId;
+    private String id;
     private String username;
     private String password;
     private boolean isEnable;
