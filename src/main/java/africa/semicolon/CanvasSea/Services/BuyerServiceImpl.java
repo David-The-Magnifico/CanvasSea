@@ -53,12 +53,12 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public void purchase(PurchaseArtRequest purchaseArtRequest) {
         Optional<Buyer> buyerOptional = buyerRepository.findByUsername(purchaseArtRequest.getBuyerUsername());
-        if (buyerOptional.isEmpty()) {
+        if (!buyerOptional.isPresent()) {
             throw new BuyerDoesNotExistException("Buyer not found");
         }
 
         Optional<Art> artOptional = artService.findArtById(purchaseArtRequest.getArtId());
-        if (artOptional.isEmpty()) {
+        if (!artOptional.isPresent()) {
             throw new ArtNotFoundException("Art not found");
         }
 
@@ -121,7 +121,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     private void validateBuyer(String email) {
         Optional<Buyer> buyer = buyerRepository.findByEmail(email);
-        if (buyer.isEmpty()) {
+        if (!buyer.isPresent()) {
             throw new BuyerDoesNotExistException("Account does not exist");
         }
     }
