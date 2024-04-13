@@ -8,24 +8,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Main implements CommandLineRunner {
-	@Autowired
-	AdminRepository adminRepository;
+public class Main  {
 
-	public final static String ADMIN_EMAIL = "www.wealthydavid@gmail.com";
 
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		if (adminRepository.findByUsername("Admin") == null) {
-			Admin admin = new Admin();
-			admin.setUsername("Admin");
-			admin.setPassword("admin2035");
-			admin.setEmail("www.wealthydavid@gmail.com");
-			adminRepository.save(admin);}
 	}
 
 }
