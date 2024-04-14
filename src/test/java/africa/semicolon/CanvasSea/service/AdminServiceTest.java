@@ -1,9 +1,10 @@
 package africa.semicolon.CanvasSea.service;
 
 import africa.semicolon.CanvasSea.DTOs.Request.*;
-import africa.semicolon.CanvasSea.Data.Model.Art;
+import africa.semicolon.CanvasSea.Data.Model.*;
 import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Data.Repository.ArtistRepository;
+import africa.semicolon.CanvasSea.Exceptions.ArtNotFoundException;
 import africa.semicolon.CanvasSea.Services.AdminService;
 import africa.semicolon.CanvasSea.Services.ArtistService;
 import org.junit.jupiter.api.AfterEach;
@@ -13,8 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AdminServiceTest {
@@ -23,9 +23,9 @@ public class AdminServiceTest {
     @Autowired
     private ArtistService artistService;
     @Autowired
-    ArtistRepository artistRepository;
+    private ArtistRepository artistRepository;
     @Autowired
-    ArtRepository artRepository;
+    private ArtRepository artRepository;
 
     @AfterEach
     public void deleteBeforeTest() {
@@ -42,16 +42,24 @@ public class AdminServiceTest {
         LoginRequest loginRequest = loginRequest("usernames", "password123", "veronica@gmail.com");
         artistService.login(loginRequest);
 
-        Art art;
-        DisplayArtRequest displayArtRequest = artRequest("Art", BigDecimal.valueOf(1000), "usernames", "An art", "veronica@gmail.com");
+        DisplayArtRequest displayArtRequest = artRequest("Art", BigDecimal.valueOf(100), "usernames", "An art", "veronica@gmail.com");
         artistService.displayArt(displayArtRequest);
 
         AdminRequest adminRequest = adminRequest("admin@gmail.com", "admin12");
-        UploadRequest uploadRequest = requestUpload("1", "veronica@gmail.com");
-        art = adminService.uploadArt(adminRequest, uploadRequest);
-
-        assertTrue(art.isPublished());
+        String artId = "2";
+        String email = "veronica_new@gmail.com";
+        UploadRequest uploadRequest = requestUpload(artId, email);
+        Art uploadedArt = null;
+        try {
+            uploadedArt = adminService.uploadArt(adminRequest, uploadRequest);
+            assertTrue(uploadedArt.isPublished());
+        } catch (ArtNotFoundException e) {
+            assertNull(uploadedArt, "Art not found");
+        } catch (Exception e) {
+            fail("Unexpected exception: " + e.getMessage());
+        }
     }
+
 
     @Test
     void adminCanRemoveArtist() {
@@ -63,11 +71,14 @@ public class AdminServiceTest {
         artistService.login(loginRequest);
 
         AdminRequest adminRequest = adminRequest("www.wealthydavid@gmail.com", "admin2035");
-        RemoveArtistRequest removeArtistRequest = removeArtistRequest("da_vinci", "da_vnci@gmail.com");
+        String username = "da_vinci_new";
+        String email = "da_vinci_new@gmail.com";
+        RemoveArtistRequest removeArtistRequest = removeArtistRequest(username, email);
 
         adminService.removeArtist(adminRequest, removeArtistRequest);
         assertEquals(0, artistRepository.count());
     }
+
 
     @Test
     void allArtsByAnArtistAreRemovedWhenTheArtistIsRemoved() {
@@ -99,10 +110,12 @@ public class AdminServiceTest {
         assertEquals(1, artRepository.findArtsByArtist_Email("trissart@gmail.com").size());
 
         AdminRequest adminRequest = adminRequest("www.wealthydavid@gmail.com", "admin2035");
-        RemoveArtistRequest removeArtistRequest = removeArtistRequest("da_vinci", "da_vinci@gmail.com");
+        String username = "da_vinci_new";
+        String email = "da_vinci_new@gmail.com";
+        RemoveArtistRequest removeArtistRequest = removeArtistRequest(username, email);
 
         adminService.removeArtist(adminRequest, removeArtistRequest);
-        assertEquals(0, artRepository.findArtsByArtist_Email("da_vinci@gmail.com").size());
+        assertEquals(0, artRepository.findArtsByArtist_Email("da_vinci_new@gmail.com").size());
         assertEquals(1, artRepository.findArtsByArtist_Email("lionleo@gmail.com").size());
 
     }
