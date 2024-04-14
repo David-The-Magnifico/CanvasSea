@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-class ArtistServiceTest {
+public class ArtistServiceTest {
 
     @Autowired
     private ArtistService artistService;
@@ -50,16 +50,16 @@ class ArtistServiceTest {
     public void testThatWhenArtistRegisterWithWrongEmailThrowsException(){
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("Precious");
-        registerRequest.setPassword("OlaPrecious");
-        registerRequest.setEmail("preshola@gmail.com");
+        registerRequest.setPassword("onome3778");
+        registerRequest.setEmail("preshonome@gmail.com");
         assertThrows(InvalidEmailException.class, ()->artistService.register(registerRequest));
     }
     @Test
     public void testThatArtistRegisterWithCorrectInfoReturnsArtistObjects(){
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("Precious");
-        registerRequest.setPassword("OlaPrecious");
-        registerRequest.setEmail("preshola@gmail.com");
+        registerRequest.setPassword("onome3778");
+        registerRequest.setEmail("preshoome@gmail.com");
         artistService.register(registerRequest);
         assertEquals(1, artistRepository.count());
     }
@@ -68,8 +68,8 @@ class ArtistServiceTest {
     public void testThatArtistCanRegisterAgainWithCorrectInfoReturnsArtistObjects(){
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("Precious");
-        registerRequest.setPassword("OlaPrecious");
-        registerRequest.setEmail("preshola@gmail.com");
+        registerRequest.setPassword("onome3778");
+        registerRequest.setEmail("preshonome@gmail.com");
         artistService.register(registerRequest);
         assertThrows(ArtistExistException.class,()->artistService.register(registerRequest));
     }
@@ -78,32 +78,32 @@ class ArtistServiceTest {
     public void testThatArtistCan_RegisterAndLogin(){
         RegisterRequest registerRequest = new RegisterRequest();
         LoginRequest loginRequest = new LoginRequest();
-        registerRequest.setUsername("Sandra");
-        registerRequest.setPassword("Olaoluwajohn");
-        registerRequest.setEmail("preshola@gmail.com");
+        registerRequest.setUsername("Davido");
+        registerRequest.setPassword("DavidoOBO");
+        registerRequest.setEmail("30billiongang@gmail.com");
         artistService.register(registerRequest);
-        loginRequest.setUsername("Sandra");
-        loginRequest.setPassword("Olaoluwajohn");
-        loginRequest.setEmail("@gmail.com");
+        loginRequest.setUsername("Davido");
+        loginRequest.setPassword("DavidoOBO");
+        loginRequest.setEmail("30billiongang@gmail.com");
         artistService.login(loginRequest);
     }
     @Test
     public void testThatArtistCanDisplayArtToTheTheArtGalleryAndArtRepositoryIncreaseToOne(){
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("Sandra");
-        registerRequest.setPassword("Olaoluwajohn");
-        registerRequest.setEmail("deborahdelighted5@gmail.com");
+        registerRequest.setUsername("Davido");
+        registerRequest.setPassword("DavidOBO");
+        registerRequest.setEmail("30billiongang@gmail.com");
         artistService.register(registerRequest);
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("Sandra");
-        loginRequest.setPassword("Olaoluwajohn");
-        loginRequest.setEmail("deborahdelighted5@gmail.com");
+        loginRequest.setUsername("Davido");
+        loginRequest.setPassword("DavidOBO");
+        loginRequest.setEmail("30billiongang@gmail.com");
         artistService.login(loginRequest);
         DisplayArtRequest displayArtRequest = new DisplayArtRequest();
-        displayArtRequest.setArtistUsername("Sandra");
-        displayArtRequest.setEmail("deborahdelighted5@gmail.com");
+        displayArtRequest.setArtistUsername("Davido");
+        displayArtRequest.setEmail("30billiongang@gmail.com");
         displayArtRequest.setArtName("Monkey on the tree");
-        displayArtRequest.setDescription("A paint picture which is monkey is on the tree");
+        displayArtRequest.setDescription("A paint picture which describes a monkey is on the tree");
         displayArtRequest.setAmount(BigDecimal.valueOf(3000));
         artistService.displayArt(displayArtRequest);
         assertEquals(1, artRepository.count());
@@ -111,23 +111,23 @@ class ArtistServiceTest {
     @Test
     public void testThatWhenYouRegisterTwoArtistAndOneOfTheArtistDisplayAnArtItOnlyBelongsToThatArtist(){
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("Sandra");
-        registerRequest.setPassword("Olaoluwajohn");
-        registerRequest.setEmail("deborahdelighted5@gmail.com");
+        registerRequest.setUsername("Davido");
+        registerRequest.setPassword("DavidOBO");
+        registerRequest.setEmail("30billiongang@gmail.com");
         artistService.register(registerRequest);
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("Sandra");
-        loginRequest.setPassword("Olaoluwajohn");
-        loginRequest.setEmail("deborahdelighted5@gmail.com");
+        loginRequest.setUsername("Davido");
+        loginRequest.setPassword("DavidOBO");
+        loginRequest.setEmail("30billiongang@gmail.com");
         artistService.login(loginRequest);
         DisplayArtRequest displayArtRequest = new DisplayArtRequest();
-        displayArtRequest.setEmail("deborahdelighted5@gmail.com");
-        displayArtRequest.setArtistUsername("Sandra");
+        displayArtRequest.setEmail("30billiongang@gmail.com");
+        displayArtRequest.setArtistUsername("Davido");
         displayArtRequest.setArtName("Monkey on the tree");
-        displayArtRequest.setDescription("A paint picture which is monkey is on the tree");
+        displayArtRequest.setDescription("A paint picture which descibes a monkey is on the tree");
         displayArtRequest.setAmount(BigDecimal.valueOf(3000));
         artistService.displayArt(displayArtRequest);
-        assertEquals(1, artistService.findAllArt("Sandra","deborahdelighted5@gmail.com").size());
+        assertEquals(1, artistService.findAllArt("Davido","30billiongang@gmail.com").size());
 
     }
     @Test
