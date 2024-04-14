@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static africa.semicolon.CanvasSea.Main.*;
 import static africa.semicolon.CanvasSea.Utils.Mapper.artistMapper;
 
 @Service
@@ -21,10 +20,9 @@ public class ArtistServiceImpl implements ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
     @Autowired
-    ArtService artService;
+    private ArtService artService;
 
 
-    private static final String ADMIN_EMAIL = "admin@gmail.com";
 
     @Override
     public Artist register(RegisterRequest registerRequest) {
@@ -36,54 +34,50 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-public Artist login(LoginRequest loginRequest) {
-    if (!checkIfArtistExist(loginRequest.getUsername(), loginRequest.getEmail()))
-        throw new ArtistExistException("Artist May Not exist");
-    Optional<Artist> foundArtist = artistRepository.findByUsername(loginRequest.getUsername());
-    if (!foundArtist.get().getPassword().equals(loginRequest.getPassword()))
-        throw new InvalidDetailsException("Details entered are invalid");
-    foundArtist.get().setEnable(true);
-    return artistRepository.save(foundArtist.get());
-}
+    public Artist login(LoginRequest loginRequest) {
+        if (!checkIfArtistExist(loginRequest.getUsername(), loginRequest.getEmail()))
+            throw new ArtistExistException("Artist May Not exist");
+        Optional<Artist> foundArtist = Optional.ofNullable(artistRepository.findByUsername(loginRequest.getUsername()));
+        if (!foundArtist.get().getPassword().equals(loginRequest.getPassword()))
+            throw new InvalidDetailsException("Details entered are invalid");
+        foundArtist.get().setLoggedIn(true);
+        return artistRepository.save(foundArtist.get());
+    }
 
     @Override
     public Art displayArt(DisplayArtRequest displayArtRequest) {
-        if (!checkIfArtistExist(displayArtRequest.getArtistUsername(), displayArtRequest.getEmail()))
+        if (!checkIfArtistExist(displayArtRequest.getArtistUsername(), displayArtRequest.getEmail())) {
             throw new ArtistExistException("Artist does not exist");
-        Optional<Artist> foundArtist = findArtist(displayArtRequest.getArtistUsername());
-        if (!foundArtist.get().isEnable()) throw new InvalidLoginDetails("User have not login");
-        Art art = artService.create(displayArtRequest, foundArtist.get());
+        }
+
+        Artist artist = findArtist(displayArtRequest.getArtistUsername());
+        if (artist == null) {
+            throw new ArtistExistException("Artist not found");
+        }
+
+        if (!artist.isLoggedIn()) {
+            throw new InvalidLoginDetails("User has not logged in");
+        }
+
+        Art art = artService.create(displayArtRequest, Optional.of(artist));
         return art;
     }
 
+
+
     @Override
-    public Optional<Artist> findArtistByEmail(String email) {
+    public Artist findArtistByEmail(String email) {
         return artistRepository.findByEmail(email);
     }
 
-    private static EmailRequest sendMessageToAdmin(Optional<Artist> foundArtist, Art art) {
-        EmailRequest emailRequest = new EmailRequest();
-        emailRequest.setSenderEmail(foundArtist.get().getEmail());
-        emailRequest.setTitle("Request to display Art");
-        emailRequest.setMessage(String.format("Art proposal %n" +
-                        "Art name: %s%nArt description: %s%nArt Price: %s%nArt Id: %s%nArtist Username:%s",
-                art.getName(), art.getDescription(), art.getPrice(), art.getId(), art.getArtist().getUsername()));
-        emailRequest.setReceiverEmail(ADMIN_EMAIL);
-        return emailRequest;
-    }
-
-
     @Override
     public List<Art> findAllArt(String username, String email) {
-        if (!checkIfArtistExist(username, email)) throw new ArtistExistException("Artist does not exist");
-        Optional<Artist> foundArtist = findArtist(username);
-        if (!foundArtist.get().isEnable()) throw new InvalidLoginDetails("Unauthorized request due to invalid login");
-        return artService.findArtsOwnedBy(foundArtist.get().getUsername());
+        return artistRepository.findAllArt(username, email);
     }
 
     @Override
     public Art findAArt(FindAArtRequest findAArtRequest) {
-        Optional<Artist> artist = artistRepository.findByEmail(findAArtRequest.getEmail());
+        Artist artist = artistRepository.findByEmail(findAArtRequest.getEmail());
         if (artist.isPresent()) {
             return artService.findAArt(findAArtRequest.getArtId());
         }
@@ -92,16 +86,18 @@ public Artist login(LoginRequest loginRequest) {
 
     @Override
     public void removeAArt(RemoveAArtRequest removeAArtRequest) {
-        Optional<Artist> artist = artistRepository.findByEmail(removeAArtRequest.getEmail());
+        Artist artist = artistRepository.findByEmail(removeAArtRequest.getEmail());
         if (artist.isPresent()) {
-            Artist artist1 = artist.get();
+
         }
     }
 
     @Override
-    public Optional<Artist> findArtist(String artistUsername) {
-        return Optional.of(artistRepository.findByUsername(artistUsername).get());
+    public Artist findArtist(String artistUsername) {
+        return artistRepository.findByUsername(artistUsername);
     }
+
+
 
     public void validations(RegisterRequest registerRequest) {
         if (!Validator.validateName(registerRequest.getUsername()))
@@ -119,12 +115,17 @@ public Artist login(LoginRequest loginRequest) {
     public void remove(String username, String email) {
         List<Art> arts = findAllArt(username, email);
         artService.delete(arts);
-        Optional<Artist> artist = findArtistEmail(email);
-        if (!artist.isPresent()) throw new UserNotFound("Error! Artist with this email is not found");
-        artistRepository.delete(artist.get());
+        Artist artist = findArtistEmail(email);
+
+        if (artist == null) {
+            throw new UserNotFoundException("Error! Artist with this email is not found");
+        }
+
+        artistRepository.delete(artist);
     }
 
-    public Optional<Artist> findArtistEmail(String email) {
+
+    public Artist findArtistEmail(String email) {
     return artistRepository.findByEmail(email);
 }
 
