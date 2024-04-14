@@ -11,6 +11,6 @@ public interface ArtRepository extends MongoRepository<Art, String> {
     Optional<Art> findByArtist(String artId);
 
     Art findArtByIdAndArtist(String ArtId, Artist artistId);
-    Art findArtByArtId(String artId);
+    Art findArtById(String artId);
     List<Art> findArtsByArtist_Email(String email);
 }
