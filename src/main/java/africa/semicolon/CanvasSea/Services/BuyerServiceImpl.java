@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static africa.semicolon.CanvasSea.Utils.Mapper.buyerMapper;
 
@@ -25,7 +24,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public Buyer register(RegisterRequest registerRequest) {
         if (checkIfBuyerExist(registerRequest.getUsername(), registerRequest.getEmail()))
-            throw new BuyerDoesNotExistException("User already exist");
+            throw new BuyerDoesNotExistException("User already exists");
         validations(registerRequest);
         Buyer buyer = buyerMapper(registerRequest);
         return buyerRepository.save(buyer);
@@ -33,37 +32,30 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void login(LoginRequest loginRequest) {
-        Optional<Buyer> foundBuyer = buyerRepository.findByUsername(loginRequest.getUsername());
-        if (!checkIfBuyerExist(loginRequest.getUsername(), loginRequest.getEmail())) {
+        Buyer foundBuyer = buyerRepository.findByUsername(loginRequest.getUsername());
+        if (foundBuyer == null) {
             throw new BuyerDoesNotExistException("Invalid details");
         }
-        if (!foundBuyer.get().getUsername().equalsIgnoreCase(loginRequest.getUsername())) {
+        if (!foundBuyer.getUsername().equalsIgnoreCase(loginRequest.getUsername())
+                || !foundBuyer.getPassword().equalsIgnoreCase(loginRequest.getPassword())
+                || !foundBuyer.getEmail().equalsIgnoreCase(loginRequest.getEmail())) {
             throw new InvalidDetailsException("Details entered are invalid");
         }
-        if (!foundBuyer.get().getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
-            throw new InvalidDetailsException("Details entered are invalid");
-        }
-        if (!foundBuyer.get().getEmail().equalsIgnoreCase(loginRequest.getEmail())) {
-            throw new InvalidDetailsException("Details entered are invalid");
-        }
-        foundBuyer.get().setEnable(false);
-        buyerRepository.save(foundBuyer.get());
+        foundBuyer.setEnable(false);
+        buyerRepository.save(foundBuyer);
     }
 
     @Override
     public void purchase(PurchaseArtRequest purchaseArtRequest) {
-        Optional<Buyer> buyerOptional = buyerRepository.findByUsername(purchaseArtRequest.getBuyerUsername());
-        if (!buyerOptional.isPresent()) {
+        Buyer buyer = buyerRepository.findByUsername(purchaseArtRequest.getBuyerUsername());
+        if (buyer == null) {
             throw new BuyerDoesNotExistException("Buyer not found");
         }
 
-        Optional<Art> artOptional = artService.findArtById(purchaseArtRequest.getArtId());
-        if (!artOptional.isPresent()) {
+        Art art = artService.findArtById(purchaseArtRequest.getArtId());
+        if (art == null) {
             throw new ArtNotFoundException("Art not found");
         }
-
-        Buyer buyer = buyerOptional.get();
-        Art art = artOptional.get();
 
         if (art.isSold()) {
             throw new ArtNotFoundException("Art is sold out");
@@ -86,8 +78,6 @@ public class BuyerServiceImpl implements BuyerService {
         System.out.println("Purchase successful for buyer: " + purchaseArtRequest.getBuyerUsername() + " for art ID: " + purchaseArtRequest.getArtId());
     }
 
-
-
     public void validations(RegisterRequest registerRequest) {
         if (!Validator.validateName(registerRequest.getUsername())) {
             throw new InvalidUsernameException("Invalid username");
@@ -101,7 +91,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     public boolean checkIfBuyerExist(String buyerName, String email) {
-        return buyerRepository.findByUsername(buyerName).isPresent() && buyerRepository.findByEmail(email).isPresent();
+        return buyerRepository.findByUsername(buyerName) != null && buyerRepository.findByEmail(email) != null;
     }
 
     @Override
@@ -113,15 +103,12 @@ public class BuyerServiceImpl implements BuyerService {
                 publishedArts.add(art);
             }
         }
-
         return publishedArts;
-
     }
 
-
     private void validateBuyer(String email) {
-        Optional<Buyer> buyer = buyerRepository.findByEmail(email);
-        if (!buyer.isPresent()) {
+        Buyer buyer = buyerRepository.findByEmail(email);
+        if (buyer == null) {
             throw new BuyerDoesNotExistException("Account does not exist");
         }
     }
