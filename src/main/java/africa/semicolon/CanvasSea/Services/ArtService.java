@@ -8,16 +8,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArtService {
-    Art findArt(String artId);
+    Art findArt(String id);
     Long count();
-    List<Art> findArtsOwnedBy(String email);
-    Art create(DisplayArtRequest displayArtRequest, Artist foundArtist);
+
+    Art create(DisplayArtRequest displayArtRequest, Optional<Artist> foundArtist);
     void delete(List<Art> arts);
+
+    Art create(DisplayArtRequest displayArtRequest, Artist foundArtist);
 
     void save(Art art);
     List<Art> findAllArt();
     Art findAArt(String artId);
     void removeAArt(String artId);
     void saveArt(Art art);
-    Optional<Art> findArtById(String artId);
+    Art findArtById(String artId);
 }
