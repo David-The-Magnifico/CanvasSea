@@ -13,7 +13,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping( "Admin/upload-art")
+    @PostMapping( "/Admin/upload-art")
     public ResponseEntity<?> uploadArt(@RequestBody AdminRequest adminRequest, UploadRequest uploadRequest){
         UploadResponse uploadResponse = new UploadResponse();
 
@@ -28,7 +28,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("Admin/remove-artist")
+    @DeleteMapping("/Admin/remove-artist")
     public ResponseEntity<?> removeArtist(@RequestBody AdminRequest adminRequest, RemoveArtistRequest removeArtistRequest){
         ArtistResponse removeArtistResponse = new ArtistResponse();
 
