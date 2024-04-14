@@ -9,7 +9,7 @@ import africa.semicolon.CanvasSea.Data.Model.Buyer;
 
 public class Mapper {
 
-    public  static Artist artistMapper(RegisterRequest registerRequest){
+    public static Artist artistMapper(RegisterRequest registerRequest) {
         Artist artist = new Artist();
         artist.setUsername(registerRequest.getUsername());
         artist.setPassword(registerRequest.getPassword());
@@ -17,7 +17,7 @@ public class Mapper {
         return artist;
     }
 
-    public  static Buyer buyerMapper(RegisterRequest registerRequest){
+    public static Buyer buyerMapper(RegisterRequest registerRequest) {
         Buyer buyer = new Buyer();
         buyer.setUsername(registerRequest.getUsername());
         buyer.setPassword(registerRequest.getPassword());
@@ -34,13 +34,13 @@ public class Mapper {
         return art;
     }
 
-    public static Art map(String name, String id){
+    public static Art map(String name, String id) {
         Art art = new Art();
         art.setName(name);
         return art;
     }
 
-    public static Admin mapAdmin(String email, String password){
+    public static Admin mapAdmin(String email, String password) {
         Admin admin = new Admin();
         admin.setEmail("www.wealthydavid@gmail.com");
         admin.setPassword("admin2035");
