@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>africa.semicolon</groupId>
     <artifactId>canvasSea</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>canvasSea</name>
-    <description>Demo project for Spring Boot</description>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>17</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -35,13 +37,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>3.2.1</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
-            <version>4.6.2</version>
-            <scope>test</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
