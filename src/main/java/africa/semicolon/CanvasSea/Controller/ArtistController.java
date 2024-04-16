@@ -5,7 +5,6 @@ import africa.semicolon.CanvasSea.DTOs.Request.FindAArtRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.LoginRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.RegisterRequest;
 import africa.semicolon.CanvasSea.DTOs.Response.ApiResponse;
-import africa.semicolon.CanvasSea.DTOs.Response.FindAArtResponse;
 import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Services.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,20 +50,19 @@ public class ArtistController {
         }
     }
 
-    @GetMapping("/viewAllArt")
-    public ResponseEntity<List<Art>> viewAllArt(@RequestParam String username, @RequestParam String email) {
+    @GetMapping("/findAllArt")
+    public ResponseEntity<List<Art>> findAllArt(@RequestParam String username, @RequestParam String email) {
         List<Art> artList = artistService.findAllArt(username, email);
         return ResponseEntity.ok(artList);
     }
 
-    @GetMapping("/findArt")
-    public ResponseEntity<?> findArt(@RequestBody FindAArtRequest findAArtRequest) {
-        FindAArtResponse findAArtresponse = new FindAArtResponse();
+    @GetMapping("/findAArt")
+    public ResponseEntity<?> findAArt(@RequestBody FindAArtRequest findAArtRequest) {
         try {
             Art foundArt = artistService.findAArt(findAArtRequest);
             return new ResponseEntity<>(new ApiResponse(true, foundArt), HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Art not found: " + e.getMessage());
         }
     }
 }
