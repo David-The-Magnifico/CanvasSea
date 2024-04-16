@@ -36,7 +36,7 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public Artist login(LoginRequest loginRequest) {
         if (!checkIfArtistExist(loginRequest.getUsername(), loginRequest.getEmail()))
-            throw new ArtistExistException("Artist May Not exist");
+            throw new ArtistExistException("Artist does not exist");
         Optional<Artist> foundArtist = Optional.ofNullable(artistRepository.findByUsername(loginRequest.getUsername()));
         if (!foundArtist.get().getPassword().equals(loginRequest.getPassword()))
             throw new InvalidDetailsException("Details entered are invalid");
@@ -72,7 +72,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public List<Art> findAllArt(String username, String email) {
-        return artistRepository.findAllArt(username, email);
+        return findArtist(username).getArtists();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     public boolean checkIfArtistExist(String artistUsername, String email) {
-        return artistRepository.findByUsername(artistUsername).isPresent() && artistRepository.findByEmail(email).isPresent();
+        return artistRepository.findByUsername(artistUsername) != null && artistRepository.findByEmail(email) != null;
     }
 
     @Override
