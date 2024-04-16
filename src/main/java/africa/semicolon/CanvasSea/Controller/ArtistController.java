@@ -37,7 +37,7 @@ public class ArtistController {
             artistService.login(loginRequest);
             return ResponseEntity.ok("Login successful");
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + exception.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed, : " + exception.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class ArtistController {
 
     @GetMapping("/findArt")
     public ResponseEntity<?> findArt(@RequestBody FindAArtRequest findAArtRequest) {
-        FindAArtResponse response = new FindAArtResponse();
+        FindAArtResponse findAArtresponse = new FindAArtResponse();
         try {
             Art foundArt = artistService.findAArt(findAArtRequest);
             return new ResponseEntity<>(new ApiResponse(true, foundArt), HttpStatus.OK);
