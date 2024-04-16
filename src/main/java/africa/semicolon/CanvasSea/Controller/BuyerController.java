@@ -34,7 +34,7 @@ public class BuyerController {
         BuyerLoginResponse loginResponse = new BuyerLoginResponse();
         try {
             buyerService.login(loginRequest);
-            loginResponse.setMessage("You have login !!!!!!!!");
+            loginResponse.setMessage("You have logged in successfully!!!");
             return new ResponseEntity<>(new ApiResponse(true, loginResponse), HttpStatus.OK);
         }catch (Exception exception){
             loginResponse.setMessage(exception.getMessage());
