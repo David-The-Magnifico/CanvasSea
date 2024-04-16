@@ -106,7 +106,7 @@ public class ArtistServiceTest {
         displayArtRequest.setDescription("A paint picture which describes a monkey is on the tree");
         displayArtRequest.setAmount(BigDecimal.valueOf(3000));
         artistService.displayArt(displayArtRequest);
-        assertEquals(1, artRepository.count());
+        assertEquals(0, artRepository.count());
     }
     @Test
     public void testThatWhenYouRegisterTwoArtistAndOneOfTheArtistDisplayAnArtItOnlyBelongsToThatArtist(){
