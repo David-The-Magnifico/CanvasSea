@@ -1,10 +1,12 @@
 package africa.semicolon.CanvasSea.Services;
 
 import africa.semicolon.CanvasSea.DTOs.Request.DisplayArtRequest;
+import africa.semicolon.CanvasSea.DTOs.Request.PurchaseArtRequest;
 import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
 import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Exceptions.ArtNotFoundException;
+import africa.semicolon.CanvasSea.Exceptions.InsufficientAmountException;
 import africa.semicolon.CanvasSea.Utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class ArtServiceImpl implements ArtService {
 
     @Override
     public Art create(DisplayArtRequest displayArtRequest, Optional<Artist> foundArtist) {
-        return null;
+        return new Art();
     }
 
     @Override
@@ -64,24 +66,27 @@ public class ArtServiceImpl implements ArtService {
         }
     }
 
-
     @Override
     public void removeAArt(String artId) {
-        Art art = findAArt(artId);
-        if (art.isPublished()) {
-            artRepository.delete(art);
-        } else {
-            throw new ArtNotFoundException("Art not found");
-        }
+
     }
 
     @Override
     public void saveArt(Art art) {
-        artRepository.save(art);
+
     }
 
     @Override
-    public Art findArtById(String id) {
-        return artRepository.findArtById(id);
+    public Art findArtById(String artId) {
+        return null;
+    }
+
+    @Override
+    public void purchaseArt(PurchaseArtRequest purchaseArtRequest) {
+
+    }
+
+    private boolean artExist(String artId) {
+        return false;
     }
 }
