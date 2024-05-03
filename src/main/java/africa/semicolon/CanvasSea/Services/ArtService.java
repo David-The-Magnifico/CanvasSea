@@ -1,6 +1,7 @@
 package africa.semicolon.CanvasSea.Services;
 
 import africa.semicolon.CanvasSea.DTOs.Request.DisplayArtRequest;
+import africa.semicolon.CanvasSea.DTOs.Request.PurchaseArtRequest;
 import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
 
@@ -17,6 +18,8 @@ public interface ArtService {
     Art create(DisplayArtRequest displayArtRequest, Artist foundArtist);
 
     void save(Art art);
+
+    void purchaseArt(PurchaseArtRequest purchaseArtRequest);
     List<Art> findAllArt();
     Art findAArt(String artId);
     void removeAArt(String artId);
