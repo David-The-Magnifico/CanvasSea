@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-04-16T02:10:07.269Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0" etag="q5vmdtMIcOEgP9KxS3My" version="24.2.5" type="device">
+<mxfile host="app.diagrams.net" modified="2024-04-16T02:21:09.073Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0" etag="ouiSbL50846YsmBRY2HV" version="24.2.5" type="device">
   <diagram name="Page-1" id="lBTtXCqejluXPcuxgnst">
     <mxGraphModel dx="2021" dy="1204" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -126,7 +126,7 @@
             <mxPoint x="-34.33331298828125" y="-21.33331298828125" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="4MLwhqXekIt73L7Nqnkv-35" value="Receive Payment for Artwork" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="4MLwhqXekIt73L7Nqnkv-35" value="Sell Artworks" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-470" y="-123" width="96" height="45" as="geometry" />
         </mxCell>
         <mxCell id="4MLwhqXekIt73L7Nqnkv-38" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="4MLwhqXekIt73L7Nqnkv-37">
@@ -137,7 +137,7 @@
         <mxCell id="4MLwhqXekIt73L7Nqnkv-37" value="Receive Payment for Artwork" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-405" y="-168" width="96" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="4MLwhqXekIt73L7Nqnkv-39" value="USE CASE OF AN ARTWOK SALES SYSTEM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="4MLwhqXekIt73L7Nqnkv-39" value="USE CASE OF AN ARTWORK SALES SYSTEM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-127.5" y="-188" width="467" height="30" as="geometry" />
         </mxCell>
         <mxCell id="4MLwhqXekIt73L7Nqnkv-41" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="4MLwhqXekIt73L7Nqnkv-40">
