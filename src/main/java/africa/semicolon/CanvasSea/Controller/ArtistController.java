@@ -1,9 +1,6 @@
 package africa.semicolon.CanvasSea.Controller;
 
-import africa.semicolon.CanvasSea.DTOs.Request.DisplayArtRequest;
-import africa.semicolon.CanvasSea.DTOs.Request.FindAArtRequest;
-import africa.semicolon.CanvasSea.DTOs.Request.LoginRequest;
-import africa.semicolon.CanvasSea.DTOs.Request.RegisterRequest;
+import africa.semicolon.CanvasSea.DTOs.Request.*;
 import africa.semicolon.CanvasSea.DTOs.Response.ApiResponse;
 import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Services.ArtistService;
@@ -31,12 +28,22 @@ public class ArtistController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login( @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login( @RequestBody LoginRequest LoginRequest) {
         try {
-            artistService.login(loginRequest);
+            artistService.login(LoginRequest);
             return ResponseEntity.ok("Login successful");
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed, : " + exception.getMessage());
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout( @RequestBody LogoutRequest LogoutRequest) {
+        try {
+            artistService.logout(LogoutRequest);
+            return ResponseEntity.ok("Artist is Logged out successfully");
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Logout failed, : " + exception.getMessage());
         }
     }
 
