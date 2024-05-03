@@ -19,4 +19,7 @@ public class Artist {
     private String email;
     private List<Art> artists;
 
+    public Artist get() {
+        return (Artist) artists;
+    }
 }
