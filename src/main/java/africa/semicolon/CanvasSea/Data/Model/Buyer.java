@@ -13,7 +13,8 @@ public class Buyer {
     private String id;
     private String username;
     private String password;
-    private boolean isEnable;
+    private boolean isLoggedIn = false;
+    private boolean isPresent = false;
     private String email;
     public BigDecimal Balance;
 }
