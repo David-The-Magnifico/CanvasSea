@@ -1,6 +1,7 @@
 package africa.semicolon.CanvasSea.Controller;
 
 import africa.semicolon.CanvasSea.DTOs.Request.LoginRequest;
+import africa.semicolon.CanvasSea.DTOs.Request.LogoutRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.PurchaseArtRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.RegisterRequest;
 import africa.semicolon.CanvasSea.DTOs.Response.*;
@@ -39,6 +40,16 @@ public class BuyerController {
         }catch (Exception exception){
             loginResponse.setMessage(exception.getMessage());
             return new ResponseEntity<>(new ApiResponse(false, loginResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout( @RequestBody LogoutRequest LogoutRequest) {
+        try {
+            buyerService.logout(LogoutRequest);
+            return ResponseEntity.ok("Buyer is Logged out successfully");
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Logout failed, : " + exception.getMessage());
         }
     }
 
