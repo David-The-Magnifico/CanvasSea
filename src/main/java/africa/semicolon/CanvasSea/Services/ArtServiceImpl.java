@@ -6,11 +6,11 @@ import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
 import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Exceptions.ArtNotFoundException;
-import africa.semicolon.CanvasSea.Exceptions.InsufficientAmountException;
 import africa.semicolon.CanvasSea.Utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +20,24 @@ public class ArtServiceImpl implements ArtService {
     private ArtRepository artRepository;
 
     @Override
-    public Art create(DisplayArtRequest displayArtRequest, Artist foundArtist) {
+    public Art create(DisplayArtRequest displayArtRequest, Artist foundArtist) throws IOException {
         Art art = Mapper.mapArt(displayArtRequest, foundArtist);
+        if (displayArtRequest.getImage() != null) {
+            art.setImageData(displayArtRequest.getImage().getBytes());
+            art.setImageMimeType(String.valueOf(displayArtRequest.getImage()));
+        }
         save(art);
         return art;
+    }
+
+    @Override
+    public byte[] getImage(String artId) {
+        Art art = findArt(artId);
+        if (art != null) {
+            return art.getImageData();
+        } else {
+            throw new ArtNotFoundException("Art not found");
+        }
     }
 
     @Override
