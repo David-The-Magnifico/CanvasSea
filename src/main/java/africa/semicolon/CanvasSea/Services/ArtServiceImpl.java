@@ -36,8 +36,7 @@ public class ArtServiceImpl implements ArtService {
 
     @Override
     public Art findArt(String artId) {
-        Art art = artRepository.findArtById(artId);
-        return art;
+        return artRepository.findArtById(artId);
     }
 
     @Override
