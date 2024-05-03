@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static africa.semicolon.CanvasSea.Utils.Mapper.buyerMapper;
 
@@ -41,8 +42,27 @@ public class BuyerServiceImpl implements BuyerService {
                 || !foundBuyer.getEmail().equalsIgnoreCase(loginRequest.getEmail())) {
             throw new InvalidDetailsException("Details entered are invalid");
         }
-        foundBuyer.setEnable(false);
+        foundBuyer.setPresent(false);
         buyerRepository.save(foundBuyer);
+    }
+
+    @Override
+    public void logout(LogoutRequest logoutRequest) {
+        if (!checkIfBuyerExists(logoutRequest.getUsername()))
+            throw new BuyerDoesNotExistException("Buyer does not exist");
+
+        Optional<Buyer> foundBuyer = Optional.ofNullable(buyerRepository.findByUsername(logoutRequest.getUsername()));
+
+        if (foundBuyer.isPresent() && foundBuyer.get().getUsername().equalsIgnoreCase(logoutRequest.getUsername())) {
+            foundBuyer.get().setPresent(false);
+            buyerRepository.save(foundBuyer.get());
+        } else {
+            throw new InvalidDetailsException("Incorrect Username");
+        }
+    }
+
+    private boolean checkIfBuyerExists(String buyerUsername) {
+        return buyerRepository.findByUsername(buyerUsername) != null;
     }
 
     @Override
