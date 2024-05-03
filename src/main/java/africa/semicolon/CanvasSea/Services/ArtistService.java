@@ -14,6 +14,8 @@ public interface ArtistService {
 
     Artist login(LoginRequest loginRequest);
 
+    void logout(LogoutRequest logoutRequest);
+
     Art displayArt(DisplayArtRequest displayArtRequest);
 
     Artist findArtistByEmail(String email);
