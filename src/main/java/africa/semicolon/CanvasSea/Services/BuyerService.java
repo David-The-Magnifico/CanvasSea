@@ -1,6 +1,7 @@
 package africa.semicolon.CanvasSea.Services;
 
 import africa.semicolon.CanvasSea.DTOs.Request.LoginRequest;
+import africa.semicolon.CanvasSea.DTOs.Request.LogoutRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.PurchaseArtRequest;
 import africa.semicolon.CanvasSea.DTOs.Request.RegisterRequest;
 import africa.semicolon.CanvasSea.Data.Model.Art;
@@ -17,4 +18,5 @@ public interface BuyerService {
 
     void purchase(PurchaseArtRequest purchaseArtRequest);
 
+    void logout(LogoutRequest logoutRequest);
 }
