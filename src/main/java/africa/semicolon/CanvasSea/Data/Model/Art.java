@@ -1,7 +1,6 @@
 package africa.semicolon.CanvasSea.Data.Model;
 
 import lombok.Data;
-import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,12 +13,13 @@ public class Art {
     @Id
     private String id;
     private String name;
-    private Binary image;
     private String description;
     private LocalDate dateUploaded = LocalDate.now();
     private boolean isPublished = false;
     private BigDecimal price;
     private Artist artist;
-    public boolean isSold = false;
-    public Buyer buyer;
+    private boolean isSold = false;
+    private Buyer buyer;
+    private byte[] imageData;
+    private String imageMimeType;
     }
