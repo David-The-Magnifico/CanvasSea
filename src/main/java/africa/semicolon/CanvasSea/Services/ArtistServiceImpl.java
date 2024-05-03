@@ -45,6 +45,25 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
+    public void logout(LogoutRequest logoutRequest) {
+        if (!checkIfArtistExists(logoutRequest.getUsername()))
+            throw new ArtistExistException("Artist does not exist");
+
+        Optional<Artist> foundArtist = Optional.ofNullable(artistRepository.findByUsername(logoutRequest.getUsername()));
+
+        if (foundArtist.isPresent() && foundArtist.get().getUsername().equals(logoutRequest.getUsername())) {
+            foundArtist.get().setLoggedIn(false);
+            artistRepository.save(foundArtist.get());
+        } else {
+            throw new InvalidDetailsException("Incorrect Username");
+        }
+    }
+
+    private boolean checkIfArtistExists(String artistUsername) {
+        return artistRepository.findByUsername(artistUsername) != null;
+    }
+
+    @Override
     public Art displayArt(DisplayArtRequest displayArtRequest) {
         if (!checkIfArtistExist(displayArtRequest.getArtistUsername(), displayArtRequest.getEmail())) {
             throw new ArtistExistException("Artist does not exist");
@@ -88,7 +107,7 @@ public class ArtistServiceImpl implements ArtistService {
     public void removeAArt(RemoveAArtRequest removeAArtRequest) {
         Artist artist = artistRepository.findByEmail(removeAArtRequest.getEmail());
         if (artist.isPresent()) {
-
+            Artist artist1 = artist.get();
         }
     }
 
