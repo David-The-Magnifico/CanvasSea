@@ -32,8 +32,8 @@ public class AdminServiceImpl implements AdminService {
             throw new ArtNotFoundException("Error! No art with this id exists");
         }
 
-        if (!art.isPublished()) {
-            art.setPublished(true);
+        if (!art.isAvailable()) {
+            art.setAvailable(true);
             artRepository.save(art);
         }
         return art;
