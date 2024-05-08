@@ -52,7 +52,7 @@ public class AdminServiceTest {
         Art uploadedArt = null;
         try {
             uploadedArt = adminService.uploadArt(adminRequest, uploadRequest);
-            assertTrue(uploadedArt.isPublished());
+            assertTrue(uploadedArt.isAvailable());
         } catch (ArtNotFoundException e) {
             assertNull(uploadedArt, "Art not found");
         } catch (Exception e) {
