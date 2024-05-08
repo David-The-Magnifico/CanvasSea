@@ -57,7 +57,7 @@ public class BuyerController {
     public ResponseEntity<?> checkOutArt(@PathVariable("name") String name, @RequestParam(name = "email")String email){
         ViewAllArtResponse viewAllArtResponse = new ViewAllArtResponse();
         try {
-            viewAllArtResponse.setData(buyerService.viewAllPublishedArt(name, email));
+            viewAllArtResponse.setData(buyerService.viewAllAvailableArts(name, email));
             return new ResponseEntity<>(new ApiResponse(true, viewAllArtResponse), HttpStatus.FOUND);
         }catch (Exception exception){
             viewAllArtResponse.setData(exception.getMessage());
