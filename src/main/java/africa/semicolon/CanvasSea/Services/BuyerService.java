@@ -10,7 +10,7 @@ import africa.semicolon.CanvasSea.Data.Model.Buyer;
 import java.util.List;
 
 public interface BuyerService {
-    List<Art> viewAllPublishedArt(String buyerName, String email);
+    List<Art> viewAllAvailableArts(String buyerName, String email);
 
     Buyer register(RegisterRequest registerRequest);
 
