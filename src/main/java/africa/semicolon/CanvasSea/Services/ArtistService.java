@@ -25,4 +25,6 @@ public interface ArtistService {
     Art findAArt(FindAArtRequest findAArtRequest);
 
     void removeAArt(RemoveAArtRequest removeAArtRequest);
+
+    Art receivePayment(String username, String email);
 }
