@@ -4,6 +4,7 @@ package africa.semicolon.CanvasSea.Services;
 import africa.semicolon.CanvasSea.DTOs.Request.*;
 import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
+import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Data.Repository.ArtistRepository;
 import africa.semicolon.CanvasSea.Exceptions.*;
 import africa.semicolon.CanvasSea.Utils.Validator;
@@ -21,6 +22,8 @@ public class ArtistServiceImpl implements ArtistService {
     private ArtistRepository artistRepository;
     @Autowired
     private ArtService artService;
+    @Autowired
+    private ArtRepository artRepository;
 
 
 
@@ -110,6 +113,21 @@ public class ArtistServiceImpl implements ArtistService {
             Artist artist1 = artist.get();
         }
     }
+
+    @Override
+    public Art receivePayment(String username, String email) {
+        Optional<Object> optionalArt = artRepository.findByArtistUsernameOrArtistEmail(username, email);
+        if (optionalArt.isPresent()) {
+            Art art = (Art) optionalArt.get();
+            art.setStatus("Purchased");
+            artRepository.save(art);
+            System.out.println("Payment received successfully for artwork: " + art.getName());
+            return art;
+        } else {
+            throw new RuntimeException("Art not found for the artist");
+        }
+    }
+
 
     @Override
     public Artist findArtist(String artistUsername) {
