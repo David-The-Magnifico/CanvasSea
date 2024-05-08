@@ -92,15 +92,18 @@ public class ArtServiceImpl implements ArtService {
 
     @Override
     public Art findArtById(String artId) {
-        return null;
+        return artRepository.findArtById(artId);
     }
 
     @Override
     public void purchaseArt(PurchaseArtRequest purchaseArtRequest) {
-
-    }
-
-    private boolean artExist(String artId) {
-        return false;
+        Art art = artRepository.findById(purchaseArtRequest.getArtId())
+                .orElseThrow(() -> new RuntimeException("Artwork not found"));
+        if (!art.isAvailable()) {
+            throw new RuntimeException("Artwork is not available for purchase");
+        }
+        art.setAvailable(false);
+        artRepository.save(art);
+        System.out.println("Artwork purchased successfully!");
     }
 }
