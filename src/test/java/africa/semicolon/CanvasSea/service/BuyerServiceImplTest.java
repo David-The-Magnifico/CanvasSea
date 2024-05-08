@@ -221,7 +221,7 @@ public class BuyerServiceImplTest {
         uploadRequest2.setEmail("miracles@gmail.com");
         adminService.uploadArt(adminRequest,uploadRequest2);
         assertEquals(3, artistService.findAllArt("Miracle","miracles@gmail.com").size());
-        assertEquals(3, buyerService.viewAllPublishedArt("Sandra","sandrart@gmail.com").size());
+        assertEquals(3, buyerService.viewAllAvailableArts("Sandra","sandrart@gmail.com").size());
     }
 
 }
