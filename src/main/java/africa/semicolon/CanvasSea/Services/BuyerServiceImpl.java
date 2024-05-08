@@ -115,11 +115,11 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Art> viewAllPublishedArt(String buyerName, String email) {
+    public List<Art> viewAllAvailableArts(String buyerName, String email) {
         ArrayList<Art> publishedArts = new ArrayList<>();
         validateBuyer(email);
         for (Art art : artService.findAllArt()) {
-            if (art.isPublished()) {
+            if (art.isAvailable()) {
                 publishedArts.add(art);
             }
         }
