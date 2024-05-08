@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface ArtRepository extends MongoRepository<Art, String> {
     Optional<Art> findByArtist(String artId);
-
-    Art findArtByIdAndArtist(String ArtId, Artist artistId);
     Art findArtById(String artId);
     List<Art> findArtsByArtist_Email(String email);
+
+    Optional<Object> findByArtistUsernameOrArtistEmail(String username, String email);
 }
