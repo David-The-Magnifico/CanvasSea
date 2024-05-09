@@ -10,7 +10,7 @@ import africa.semicolon.CanvasSea.Utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +20,37 @@ public class ArtServiceImpl implements ArtService {
     private ArtRepository artRepository;
 
     @Override
-    public Art create(DisplayArtRequest displayArtRequest, Artist foundArtist) throws IOException {
-        Art art = Mapper.mapArt(displayArtRequest, foundArtist);
-        if (displayArtRequest.getImage() != null) {
-            art.setImageData(displayArtRequest.getImage().getBytes());
-            art.setImageMimeType(String.valueOf(displayArtRequest.getImage()));
+    public Art create(DisplayArtRequest displayArtRequest, Artist foundArtist) {
+        if (displayArtRequest == null || foundArtist == null) {
+            throw new IllegalArgumentException("Both Art and Artist's details must be filled!!");
         }
-        save(art);
+
+        if (displayArtRequest.getArtName() == null || displayArtRequest.getArtName().isEmpty()) {
+            throw new IllegalArgumentException("Art name must be filled!!");
+        }
+
+        if (displayArtRequest.getDescription() == null || displayArtRequest.getDescription().isEmpty()) {
+            throw new IllegalArgumentException("Art description must be filled!!");
+        }
+
+        if (displayArtRequest.getAmount() == null || displayArtRequest.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Art amount must not be invalid!!");
+        }
+
+        if (displayArtRequest.getImage() == null || displayArtRequest.getImage().getData() == null || displayArtRequest.getImage().getData().length == 0) {
+            throw new IllegalArgumentException("Art image not found!!");
+        }
+
+        if (foundArtist.getUsername() == null || foundArtist.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Artist username must be filled!!");
+        }
+
+        if (foundArtist.getEmail() == null || foundArtist.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Artist email must be filled!!");
+        }
+
+        Art art = Mapper.mapArt(displayArtRequest, foundArtist);
+        artRepository.save(art);
         return art;
     }
 
@@ -34,7 +58,7 @@ public class ArtServiceImpl implements ArtService {
     public byte[] getImage(String artId) {
         Art art = findArt(artId);
         if (art != null) {
-            return art.getImageData();
+            return art.getImage().getData();
         } else {
             throw new ArtNotFoundException("Art not found");
         }
@@ -98,11 +122,22 @@ public class ArtServiceImpl implements ArtService {
     @Override
     public void purchaseArt(PurchaseArtRequest purchaseArtRequest) {
         Art art = artRepository.findById(purchaseArtRequest.getArtId())
-                .orElseThrow(() -> new RuntimeException("Artwork not found"));
+                .orElseThrow(() -> new ArtNotFoundException("Artwork not found"));
+
         if (!art.isAvailable()) {
             throw new RuntimeException("Artwork is not available for purchase");
         }
+
+        if (purchaseArtRequest.getAmount() == null || purchaseArtRequest.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid purchase amount");
+        }
+
+        if (purchaseArtRequest.getAmount().compareTo(art.getPrice()) > 0) {
+            throw new IllegalArgumentException("Purchase amount exceeds the artwork's price");
+        }
+
         art.setAvailable(false);
+        art.setPurchasedAmount();
         artRepository.save(art);
         System.out.println("Artwork purchased successfully!");
     }
