@@ -119,7 +119,7 @@ public class ArtistServiceImpl implements ArtistService {
         Optional<Object> optionalArt = artRepository.findByArtistUsernameOrArtistEmail(username, email);
         if (optionalArt.isPresent()) {
             Art art = (Art) optionalArt.get();
-            art.setStatus("Purchased");
+            art.setStatus();
             artRepository.save(art);
             System.out.println("Payment received successfully for artwork: " + art.getName());
             return art;
