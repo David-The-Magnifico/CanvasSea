@@ -49,5 +49,12 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.microsoft.azure/azure-storage-blob -->
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>11.0.1</version>
+        </dependency>
+
     </dependencies>
 </project>
