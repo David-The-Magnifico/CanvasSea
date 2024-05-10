@@ -6,7 +6,9 @@ import africa.semicolon.CanvasSea.Data.Model.Art;
 import africa.semicolon.CanvasSea.Data.Model.Artist;
 import africa.semicolon.CanvasSea.Data.Repository.ArtRepository;
 import africa.semicolon.CanvasSea.Exceptions.ArtNotFoundException;
+import africa.semicolon.CanvasSea.Services.cloud.CloudServices;
 import africa.semicolon.CanvasSea.Utils.Mapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ArtServiceImpl implements ArtService {
-    @Autowired
+
     private ArtRepository artRepository;
+    private final CloudServices cloudServices;
 
     @Override
     public Art create(DisplayArtRequest displayArtRequest, Artist foundArtist) {
@@ -48,8 +52,10 @@ public class ArtServiceImpl implements ArtService {
         if (foundArtist.getEmail() == null || foundArtist.getEmail().isEmpty()) {
             throw new IllegalArgumentException("Artist email must be filled!!");
         }
+        String uploadImageUrl = cloudServices.uploadImage(displayArtRequest.getFileToUpload());
 
         Art art = Mapper.mapArt(displayArtRequest, foundArtist);
+        art.setArtImageUrl(uploadImageUrl);
         artRepository.save(art);
         return art;
     }
