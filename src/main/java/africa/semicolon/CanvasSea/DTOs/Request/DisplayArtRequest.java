@@ -2,6 +2,7 @@ package africa.semicolon.CanvasSea.DTOs.Request;
 
 import lombok.Data;
 import org.bson.types.Binary;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,7 @@ public class DisplayArtRequest {
     private String email;
     private Binary image;
     private String contentType;
+    private MultipartFile fileToUpload;
 
 
 }
