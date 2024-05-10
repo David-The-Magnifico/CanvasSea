@@ -10,11 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Service
 @AllArgsConstructor
-public class CluodinaryServices implements CloudServices{
+public class CloudinaryServices implements CloudServices{
     private AppConfig appConfig;
 
     @Override
