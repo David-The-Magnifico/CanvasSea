@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,8 +38,28 @@ public class CloudinaryServices implements CloudServices{
         }
 
 
+    }
 
+    @Override
+    public List<String> uploadMultipleImages(List<MultipartFile> toUpload) {
+        Cloudinary cloudinary = new Cloudinary();
+        Uploader uploader = cloudinary.uploader();
 
+        try {
+            for (MultipartFile file : toUpload) {
+                Map<?,?> response = uploader.upload(file.getBytes(), ObjectUtils.asMap(
+                        "public_id", "CanvasSeaFolder/artImages/" + file.getName(),
+                        "api_key", appConfig.getCloudApiKey(),
+                        "api_secret", appConfig.getCloudApiSecret(),
+                        "cloud_name", appConfig.getCloudApiName(),
+                        "secure", true
+                ));
 
+                return List.of(response.get("url").toString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("File upload failed: " + e.getMessage());
+        }
+        return List.of();
     }
 }
