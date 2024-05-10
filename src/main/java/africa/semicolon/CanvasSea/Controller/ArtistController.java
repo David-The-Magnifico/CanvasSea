@@ -72,4 +72,5 @@ public class ArtistController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Art not found: " + e.getMessage());
         }
     }
+//    @ModelAttribute
 }
