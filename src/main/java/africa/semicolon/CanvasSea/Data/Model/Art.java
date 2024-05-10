@@ -22,6 +22,7 @@ public class Art {
     private boolean isSold = false;
     private Buyer buyer;
     private Binary image;
+    private String artImageUrl;
     private String contentType;
 
     public void setStatus() {
