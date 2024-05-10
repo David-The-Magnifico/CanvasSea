@@ -21,4 +21,6 @@ public class Validator {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+    public static String filePath = "C:\\Users\\oladi\\IdeaProjects\\CanvasSea\\src\\main\\java\\africa\\semicolon\\CanvasSea\\ArtImages\\abstract.jpeg";
 }
