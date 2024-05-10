@@ -23,4 +23,5 @@ public class Validator {
     }
 
     public static String filePath = "C:\\Users\\oladi\\IdeaProjects\\CanvasSea\\src\\main\\java\\africa\\semicolon\\CanvasSea\\ArtImages\\abstract.jpeg";
+
 }
