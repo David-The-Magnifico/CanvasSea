@@ -1,11 +1,13 @@
 package africa.semicolon.CanvasSea.Data.Model;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @Document("Artist")
@@ -18,6 +20,10 @@ public class Artist {
     private boolean isPresent = false;
     private String email;
     private List<Art> artists;
+    private String address;
+
+    @CreatedDate
+    private Date createdDate;
 
     public Artist get() {
         return (Artist) artists;
