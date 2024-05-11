@@ -3,19 +3,26 @@ package africa.semicolon.CanvasSea.Controller;
 import africa.semicolon.CanvasSea.DTOs.Request.*;
 import africa.semicolon.CanvasSea.DTOs.Response.ApiResponse;
 import africa.semicolon.CanvasSea.Data.Model.Art;
+import africa.semicolon.CanvasSea.Services.AdminService;
 import africa.semicolon.CanvasSea.Services.ArtistService;
+import africa.semicolon.CanvasSea.Services.cloud.CloudServices;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/artists")
+@RequiredArgsConstructor
 public class ArtistController {
-    @Autowired
-    private ArtistService artistService;
+
+    private final ArtistService artistService;
+    private final CloudServices cloudServices;
+
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
@@ -72,5 +79,11 @@ public class ArtistController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Art not found: " + e.getMessage());
         }
     }
-//   @ModelAttribute()
+
+    @PostMapping("upload")
+    public ResponseEntity<ApiResponse> upload(@RequestParam(value = "upload") MultipartFile file) {
+
+            String url = cloudServices.uploadImage(file);
+            return new ResponseEntity<> (new ApiResponse(true, url), HttpStatus.OK);
+    }
 }
