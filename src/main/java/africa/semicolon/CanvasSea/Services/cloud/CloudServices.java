@@ -9,3 +9,4 @@ public interface CloudServices {
 
     List<String> uploadMultipleImages(List<MultipartFile> toUpload);
 }
+
