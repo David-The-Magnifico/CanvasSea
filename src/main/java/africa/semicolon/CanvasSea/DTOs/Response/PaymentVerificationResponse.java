@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
+import org.bson.types.ObjectId;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,6 +17,9 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentVerificationResponse {
+
+    @JsonProperty("_id")
+    private ObjectId id;
 
     @JsonProperty("status")
     private String status;
@@ -35,6 +38,9 @@ public class PaymentVerificationResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Data{
 
+        @JsonProperty("_id")
+        private ObjectId id;
+
         @JsonProperty("status")
         private String status;
 
@@ -51,7 +57,7 @@ public class PaymentVerificationResponse {
         private String paidAt;
 
         @JsonProperty("created_at")
-        private String createdAt;
+        private Date createdAt;
 
         @JsonProperty("channel")
         private String channel;
@@ -66,18 +72,13 @@ public class PaymentVerificationResponse {
         private String pricingPlanType;
 
         @JsonProperty("created_on")
-        private Date createdOn = new Date();
+        private Date createdOn;
 
         @JsonProperty("updated_on")
-        private Date updatedOn = new Date();
-
-        public String getId() {
-            return getId();
-        }
+        private Date updatedOn;
 
         public Artist getArtist() {
             return getArtist();
         }
     }
 }
-
