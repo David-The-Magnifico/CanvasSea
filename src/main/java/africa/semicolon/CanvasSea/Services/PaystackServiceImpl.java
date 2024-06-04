@@ -8,10 +8,11 @@ import africa.semicolon.CanvasSea.DTOs.Response.PaymentVerificationResponse;
 import africa.semicolon.CanvasSea.Data.Model.PaymentPaystack;
 import africa.semicolon.CanvasSea.Data.Model.PricingPlanType;
 import africa.semicolon.CanvasSea.Data.Repository.ArtistRepository;
-import africa.semicolon.CanvasSea.Data.Repository.PaystackPaymentRepository;
+import africa.semicolon.CanvasSea.Data.Repository.PaystackPaymentRepositoryImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Setter;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -35,14 +36,14 @@ public class PaystackServiceImpl implements PaystackService {
     private static final int STATUS_CODE_CREATED = 201;
     private static final int STATUS_CODE_OK = 200;
 
+    @Setter
     private String paystackSecretKey;
 
     private ArtistRepository artistRepository;
 
-    private PaystackPaymentRepository paystackPaymentRepository;
+    private PaystackPaymentRepositoryImpl paystackPaymentRepositoryImpl;
 
-    public void PaystackService(String paystackSecretKey) {
-        this.paystackSecretKey = paystackSecretKey;
+    public PaystackServiceImpl(PaystackPaymentRepositoryImpl paystackPaymentRepository) {
     }
 
     public CreatePlanResponse createPlanResponse(CreatePlanRequest createPlanRequest) throws RuntimeException {
@@ -74,7 +75,7 @@ public class PaystackServiceImpl implements PaystackService {
             ObjectMapper mapper = new ObjectMapper();
             createPlanResponse = mapper.readValue(result.toString(), CreatePlanResponse.class);
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            System.out.println("An error occurred while processing the request: " + ex.getMessage());
         }
 
         return createPlanResponse;
@@ -82,13 +83,13 @@ public class PaystackServiceImpl implements PaystackService {
 
     @Override
     public PaymentVerificationResponse paymentVerificationResponse(String reference, String plan, String id) throws RuntimeException {
-        return null;
+        return paymentVerificationResponse(reference, plan, id);
     }
 
 
     @Override
     public InitializePaymentResponse initializePaymentResponse(InitializePaymentRequest initializePaymentRequest) {
-        InitializePaymentResponse initializePaymentResponse = null;
+        InitializePaymentResponse initializePaymentResponse = new InitializePaymentResponse();
 
         try {
             Gson gson = new Gson();
@@ -115,7 +116,7 @@ public class PaystackServiceImpl implements PaystackService {
             ObjectMapper mapper = new ObjectMapper();
             initializePaymentResponse = mapper.readValue(result.toString(), InitializePaymentResponse.class);
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            System.out.println("An error occurred while processing the request: " + ex.getMessage());
         }
 
         return initializePaymentResponse;
@@ -159,7 +160,7 @@ public class PaystackServiceImpl implements PaystackService {
                         .amount(paymentVerificationResponse.getData().getAmount())
                         .gatewayResponse(paymentVerificationResponse.getData().getGatewayResponse())
                         .paidAt(paymentVerificationResponse.getData().getPaidAt())
-                        .createdAt(paymentVerificationResponse.getData().getCreatedAt())
+                        .createdAt(String.valueOf(paymentVerificationResponse.getData().getCreatedAt()))
                         .channel(paymentVerificationResponse.getData().getChannel())
                         .currency(paymentVerificationResponse.getData().getCurrency())
                         .ipAddress(paymentVerificationResponse.getData().getIpAddress())
@@ -171,7 +172,7 @@ public class PaystackServiceImpl implements PaystackService {
             throw new RuntimeException("Error processing payment with Paystack");
         }
         assert paymentPaystack != null;
-        paystackPaymentRepository.save(paymentPaystack);
+        paystackPaymentRepositoryImpl.save(paymentPaystack);
         return paymentVerificationResponse;
     }
 }
