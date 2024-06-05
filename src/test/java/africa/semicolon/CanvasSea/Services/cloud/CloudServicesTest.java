@@ -72,7 +72,7 @@ class CloudServicesTest {
             assertEquals(3, uploadResponses.size());
 
         } catch (Exception e) {
-            throw new RuntimeException("image upload fail", e);
+            throw new RuntimeException("image upload failed", e);
         }
     }
 
